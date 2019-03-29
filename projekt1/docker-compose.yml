@@ -1,0 +1,35 @@
+version: "3.6"
+services:
+    web:
+        image: richarvey/nginx-php-fpm
+        depends_on:
+            - db
+        container_name: nginx
+        ports:
+            - "9080:80"
+        networks:
+            - net1
+    db:
+        image: mysql/mysql-server
+        container_name: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=password
+            - MYSQL_DATABASE=app
+        networks:
+            - net1
+            - net2
+    myadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        networks:
+            - net2
+    nodejs:
+        image: node
+        container_name: node
+        ports:
+            - "9001:80"
+networks:
+    net1:
+    net2:
